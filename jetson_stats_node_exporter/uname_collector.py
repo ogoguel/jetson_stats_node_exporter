@@ -27,4 +27,6 @@ class UnameCollector:
             labels=list(labels.keys())
         )
         metric.add_metric(list(labels.values()), 1)
+
+        print(labels)
         yield metric
