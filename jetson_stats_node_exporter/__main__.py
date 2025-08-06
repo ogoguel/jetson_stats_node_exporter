@@ -5,6 +5,8 @@ from prometheus_client import start_http_server
 from prometheus_client.core import REGISTRY
 import schedule
 
+from .uname_collector import UnameCollector
+
 from .exporter import JetsonExporter
 from .logger import factory
 
@@ -14,6 +16,9 @@ def start_exporter(port=9100, update_period=1, logfile_cleanup_interval_hours=24
     logger.info(f"Node exporter running on port {port}. Querying speed: {update_period}s. "
                 f"Cleanup frequency: {logfile_cleanup_interval_hours}")
     start_http_server(port)
+
+    REGISTRY.register(UnameCollector())
+
     data_collector = JetsonExporter(update_period)
 
     sleep(update_period * 2)
